@@ -15,6 +15,7 @@ function Main(props) {
         setUserDescription(res.about)
         setUserAvatar(res.avatar)
       })
+      .catch(console.log)
   }, [userName, userDescription, userAvatar])
 
   React.useEffect(() => {
@@ -22,13 +23,14 @@ function Main(props) {
       .then(res => {
         setCards(res)
       })
+      .catch(console.log)
   }, [])
 
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar">
-          <img className="profile__avatar-img" src={userAvatar} alt="" onClick={props.onEditAvatar}/>
+          <img className="profile__avatar-img" src={userAvatar} alt={userName} onClick={props.onEditAvatar}/>
         </div>
         <h1 className="profile__name">{userName}</h1>
         <button className="profile__edit-button" type="button" onClick={props.onEditProfile}/>
@@ -45,7 +47,7 @@ function Main(props) {
                 title={card.name}
                 likeCounter={card.likes.length}
                 image={card.link}
-                onCardClick = {props.onCardClick}
+                onCardClick={props.onCardClick}
               />
             ))}
         </ul>

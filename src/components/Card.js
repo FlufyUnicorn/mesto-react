@@ -2,9 +2,9 @@ import React from "react";
 
 function Card(props) {
   return (
-    <li className="card" key={props.key}>
+    <li className="card">
       <button className="card__delete-button" type="button"/>
-      <img className="card__image" src={props.image} alt={props.title} onClick={()=>props.onCardClick(props.card)}/>
+      <img className="card__image" src={props.image} alt={props.title} onClick={() => props.onCardClick(props.card)}/>
       <div className="card__info">
         <h2 className="card__name">{props.title}</h2>
         <div className="card__like-container">
