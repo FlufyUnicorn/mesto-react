@@ -42,8 +42,8 @@ class Api {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        name: card.new_place,
-        link: card.place_link,
+        name: card.name,
+        link: card.link,
       })
     }).then(this._handleResponse)
   }
@@ -77,6 +77,11 @@ class Api {
         avatar: userInfo.avatar,
       })
     }).then(this._handleResponse)
+  }
+
+  changeLikeCardStatus(obj, variable) {
+    this._status = variable ? this.likeCard(obj) : this.dislikeCard(obj);
+    return this._status;
   }
 }
 
