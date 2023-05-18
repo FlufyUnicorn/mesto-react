@@ -93,7 +93,6 @@ function App() {
   }
 
   function handleAddPlace(obj) {
-    console.log(obj, 'obj_card')
     api.addNewCard(obj)
       .then(res=>{
         setCards([res, ...cards])

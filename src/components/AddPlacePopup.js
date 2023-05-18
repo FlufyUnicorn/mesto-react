@@ -1,25 +1,29 @@
 import PopupWithForm from "./PopupWithForm";
+import {FormValidation} from "./Validation";
 import React from "react";
 
 function AddPlacePopup(props) {
-  const [name, setName] = React.useState('')
-  const [link, setLink] = React.useState('')
+  const {values, handleChange, errors, isValid, setValues, resetForm} = FormValidation({
+    new_place: '',
+    place_link: ''
+  })
 
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeLink(e) {
-    setLink(e.target.value);
-  }
-
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    props.onAddPlace({
-      name,
-      link: link,
-    })
+
+    if (isValid) {
+      props.onAddPlace({
+        new_place: values.new_place,
+        place_link: values.place_link
+      })
+    }
   }
+  React.useEffect(() => {
+    if (!props.isOpen) {
+      resetForm()
+    }
+  }, [props.isOpen])
+
   return (
     <PopupWithForm
       id={'place'}
@@ -27,6 +31,7 @@ function AddPlacePopup(props) {
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
+      isValid={isValid}
     >
       <label className="popup__label">
         <input id="place-input"
@@ -37,9 +42,10 @@ function AddPlacePopup(props) {
                required
                minLength="2"
                maxLength="30"
-               onChange={handleChangeName}
+               onChange={handleChange}
+               value={values.new_place || ''}
         />
-        <span className="place-input-error popup__input-error-text"/>
+        <span className={`place-input-error popup__input-error-text ${isValid ? '' : 'popup__input-error-text_active'}`}>{errors.new_place}</span>
       </label>
       <label className="popup__label">
         <input id="url-input"
@@ -48,9 +54,10 @@ function AddPlacePopup(props) {
                placeholder="Ссылка на картинку"
                name="place_link"
                required
-               onChange={handleChangeLink}
+               onChange={handleChange}
+               value={values.place_link || ''}
         />
-        <span className="url-input-error popup__input-error-text"/>
+        <span className={`url-input-error popup__input-error-text ${isValid ? '' : 'popup__input-error-text_active'}`}>{errors.place_link}</span>
       </label>
     </PopupWithForm>
   )
